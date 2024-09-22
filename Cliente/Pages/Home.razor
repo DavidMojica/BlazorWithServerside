@@ -1,0 +1,50 @@
+﻿@page "/"
+@inject Services.PaisService PaisService
+@using Modelos.Entidades
+
+<h3>Lista de Países</h3>
+
+@if (paises == null)
+{
+    <p>Cargando países...</p>
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+else if (paises.Count == 0)
+{
+    <p>No se encontraron países.</p>
+}
+else
+{
+    <ul>
+        @foreach (var pais in paises)
+        {
+            <li>@pais.Nombre</li>
+        }
+    </ul>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+@code {
+    private List<Pais> paises;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            paises = await PaisService.ObtenerPaises();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Error al cargar los países: " + ex.Message;
+        }
+    }
+}

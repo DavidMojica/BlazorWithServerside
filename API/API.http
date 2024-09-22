@@ -1,0 +1,6 @@
+@API_HostAddress = https://localhost:5186
+
+GET {{API_HostAddress}}/api/paises
+Accept: application/json
+
+###
